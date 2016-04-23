@@ -8,6 +8,8 @@
 #define TEXTURE_H_
 
 #include <SDL2/SDL.h>
+#include "debug.hpp"
+#include "utils.hpp"
 
 /**
  * texture
@@ -42,11 +44,11 @@ public:
      *   IN - The colour key to use for this texture. Pixels of the chosen
      *        colour will be rendered as transparent.
      *
-     * Return: int @@@JH return an error code.
+     * Return: game_errno_type
      *   Error code indicating success or reason for failure.
      */
-    int create_from_file(const char *path,
-                         Colour      *colour_key);
+    game_errno_type create_from_file(const char *path,
+                                     Colour     *colour_key);
 
 
     /**
@@ -65,17 +67,17 @@ public:
      *   IN - The clip of the texture to render. This argument can be NULL, in
      *        which case the whole texture will be rendered.
      *
-     * Return: int @@@JH make this some error code.
+     * Return: game_errno_type
      *   Error code indicating success or the reason for failure.
      */
-    int render(SDL_Rect *destination,
-               SDL_Rect *clip);
+    game_errno_type render(SDL_Rect *destination,
+                           SDL_Rect *clip);
 
 private:
     /**
      * Private member variables.
      */
-    SDL_Renderer *renderer;
+    SDL_Renderer *rnd;
     SDL_Texture  *tex;
     uint32_t      width;
     uint32_t      height;

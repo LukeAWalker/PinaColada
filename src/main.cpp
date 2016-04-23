@@ -12,8 +12,10 @@ main menu, for instance.
 *******************************************************************************/
 
 /*INCLUDES*********************************************************************/
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <debug.hpp>
 
 
 /*DEFINES**********************************************************************/
@@ -26,15 +28,23 @@ int
 main (int argc,
       char* argv[])
 {
-    int         rc = 0;
-    SDL_Window *window;
-    int         i;
+    game_errno_type  rc = GAME_ERRNO_SUCCESS;
+    int              sdl_rc;
+    SDL_Window      *window;
+    bool             quit = false;
+    SDL_Event        event;
 
-    if (rc == 0) {
-        rc = SDL_Init(SDL_INIT_VIDEO);
+    /*
+     * Initialise SDL and create a window.
+     */
+    if (GAME_ERR_OK(rc)) {
+        sdl_rc = SDL_Init(SDL_INIT_VIDEO);
+        if (sdl_rc < 0) {
+            rc = GAME_ERRNO_SDL_ERROR;
+        }
     }
 
-    if (rc == 0) {
+    if (GAME_ERR_OK(rc)) {
         window = SDL_CreateWindow("Test",
                                   SDL_WINDOWPOS_UNDEFINED,
                                   SDL_WINDOWPOS_UNDEFINED,
@@ -42,13 +52,20 @@ main (int argc,
                                   480,
                                   SDL_WINDOW_SHOWN);
         if (window == NULL) {
-            rc = -1;
+            rc = GAME_ERRNO_SDL_ERROR;
         }
     }
 
-    if (rc == 0) {
-        for (i = 0; i < 1000000; i++) {
-            // Don't do anything here, this is just so we can see the window
+    /*
+     * Run an event loop so you can quit.
+     */
+    if (GAME_ERR_OK(rc)) {
+        while (!quit) {
+            while (SDL_PollEvent(&event) != 0) {
+                if (event.type == SDL_QUIT) {
+                    quit = true;
+                }
+            }
         }
     }
 
@@ -56,8 +73,8 @@ main (int argc,
     window = NULL;
     SDL_Quit();
 
-    if (rc != 0) {
-        printf("SDL didn't work: %s\n", SDL_GetError());
+    if (GAME_ERR_NOTOK(rc)) {
+        std::cout << "Something didn't work: " << game_errno_strerror(rc) << "\n";
     }
 
     return (rc);
