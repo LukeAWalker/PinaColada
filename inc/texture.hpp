@@ -8,6 +8,8 @@
 #define TEXTURE_H_
 
 #include <SDL2/SDL.h>
+#include "debug.hpp"
+#include "utils.hpp"
 
 /**
  * texture
@@ -17,6 +19,39 @@
 class Texture {
 public:
 
+<<<<<<< HEAD
+=======
+    /**
+     * Texture
+     *
+     * Constructor for a texture. Note that this doesn't load anything from file
+     * - call create_from_file before using any other methods of this class.
+     *
+     * Argument: renderer
+     *   IN - The renderer to use to render this texture.
+     *
+     * @@@JH might need to wrap the renderer, if so use that instead here.
+     */
+    Texture(SDL_Renderer *renderer);
+
+    /**
+     * create_from_file
+     *
+     * Create a texture from a file.
+     *
+     * Argument: path
+     *   IN - The path to the file to be loaded.
+     *
+     * Argument: colour_key
+     *   IN - The colour key to use for this texture. Pixels of the chosen
+     *        colour will be rendered as transparent.
+     *
+     * Return: game_errno_type
+     *   Error code indicating success or reason for failure.
+     */
+    game_errno_type create_from_file(const char *path,
+                                     Colour     *colour_key);
+>>>>>>> 6a4b51f90e465d50e82639004257a52d77673ccb
 
 
     /**
@@ -35,17 +70,17 @@ public:
      *   IN - The clip of the texture to render. This argument can be NULL, in
      *        which case the whole texture will be rendered.
      *
-     * Return: int @@@JH make this some error code.
+     * Return: game_errno_type
      *   Error code indicating success or the reason for failure.
      */
-    int render(SDL_Rect *destination,
-               SDL_Rect *clip);
+    game_errno_type render(SDL_Rect *destination,
+                           SDL_Rect *clip);
 
 private:
     /**
      * Private member variables.
      */
-    SDL_Renderer *renderer;
+    SDL_Renderer *rnd;
     SDL_Texture  *tex;
     uint32_t      width;
     uint32_t      height;

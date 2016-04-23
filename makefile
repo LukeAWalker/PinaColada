@@ -20,7 +20,7 @@ $(EXE_PATH)\PinaColada.exe: $(OBJ_FILES)
 	cmd /c copy .\lib\SDL2-2.0.4\i686-w64-mingw32\bin\SDL2.dll .\publish\debug
 
 obj/%.o: src/%.cpp
-	g++ $(CC_FLAGS) -c -I $(INCLUDE) -o $@ $<
+	g++ $(CC_FLAGS) -I $(INCLUDE) -c -o $@ $<
 
 #.PHONY : clean
 #clean:
