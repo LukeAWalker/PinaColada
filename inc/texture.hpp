@@ -19,8 +19,6 @@
 class Texture {
 public:
 
-<<<<<<< HEAD
-=======
     /**
      * Texture
      *
@@ -51,8 +49,6 @@ public:
      */
     game_errno_type create_from_file(const char *path,
                                      Colour     *colour_key);
->>>>>>> 6a4b51f90e465d50e82639004257a52d77673ccb
-
 
     /**
      * render
