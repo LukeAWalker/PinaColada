@@ -17,36 +17,6 @@
 class Texture {
 public:
 
-    /**
-     * Texture
-     *
-     * Constructor for a texture. Note that this doesn't load anything from file
-     * - call create_from_file before using any other methods of this class.
-     *
-     * Argument: renderer
-     *   IN - The renderer to use to render this texture.
-     *
-     * @@@JH might need to wrap the renderer, if so use that instead here.
-     */
-    Texture(SDL_Renderer *renderer);
-
-    /**
-     * create_from_file
-     *
-     * Create a texture from a file.
-     *
-     * Argument: path
-     *   IN - The path to the file to be loaded.
-     *
-     * Argument: colour_key
-     *   IN - The colour key to use for this texture. Pixels of the chosen
-     *        colour will be rendered as transparent.
-     *
-     * Return: int @@@JH return an error code.
-     *   Error code indicating success or reason for failure.
-     */
-    int create_from_file(const char *path,
-                         Colour      *colour_key);
 
 
     /**
