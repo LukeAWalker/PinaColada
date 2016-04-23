@@ -1,13 +1,14 @@
 /*******************************************************************************
 
-Title:      main.cpp
+Title:      template
 Author:     Luke
 Date:       23/04/2016
 
 Description:
 
-  Main file for JPL's new game; this file might contain the splash screen and
-main menu, for instance.
+  A template containing the header for each file. This should help organise the
+project and give uniform code. Use the same header for .h files and .cpp
+files.
 
 *******************************************************************************/
 
@@ -18,3 +19,10 @@ main menu, for instance.
 /*GLOBAL VARIABLES*************************************************************/
 
 /*MAIN CODE BODY***************************************************************/
+
+//USE THE BELOW IF DOING A HEADER FILE
+
+#ifndef TEMPLATE_H_
+#define TEMPLATE_H_
+
+#endif //TEMPLATE_H_
