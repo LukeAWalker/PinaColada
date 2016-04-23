@@ -17,6 +17,7 @@ object will contain.
 #include <debug.hpp>
 #include <utils.hpp>
 #include <SDL_image.h>
+#include <iostream>
 
 /*DEFINES**********************************************************************/
 
@@ -58,7 +59,26 @@ game_errno_type Graphics_Object::Create_texture_from_file(std::string path,
                                                           Colour     *colour_key) {
     game_errno_type rc = GAME_ERRNO_SUCCESS;
 
+    //Create surface
+    SDL_Surface* Surf_Temp = NULL;
 
+    if((Surf_Temp = IMG_Load(path.c_str())) == NULL) {
+        rc = GAME_ERRNO_BAD_PATH;
+    }
+
+    //Set color key for surface and convert to texture
+    if(rc == GAME_ERRNO_SUCCESS) {
+        uint32_t colorkey = SDL_MapRGB(Surf_Temp->format,
+                                       colour_key->r,
+                                       colour_key->g,
+                                       colour_key->b);
+        SDL_SetColorKey(Surf_Temp, SDL_TRUE, colorkey);
+
+        texture = SDL_CreateTextureFromSurface(rnd, Surf_Temp);
+    }
+
+    //free surface
+    SDL_FreeSurface(Surf_Temp);
 
     return rc;
 }
