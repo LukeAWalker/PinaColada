@@ -3,6 +3,7 @@
 # SDL header locations
 
 SDL_INCLUDE := .\lib\SDL2-2.0.4\i686-w64-mingw32\include
+INCLUDE := .\inc
 
 # Library locations
 SDL_LIB := lib\SDL2-2.0.4\i686-w64-mingw32\lib
@@ -19,7 +20,7 @@ $(EXE_PATH)\PinaColada.exe: $(OBJ_FILES)
 	cmd /c copy .\lib\SDL2-2.0.4\i686-w64-mingw32\bin\SDL2.dll .\publish\debug
 
 obj/%.o: src/%.cpp
-	g++ $(CC_FLAGS) -c -o $@ $<
+	g++ $(CC_FLAGS) -c -I $(INCLUDE) -o $@ $<
 
 #.PHONY : clean
 #clean:
