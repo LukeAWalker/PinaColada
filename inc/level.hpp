@@ -1,10 +1,12 @@
 #ifndef _LEVEL_H_
     #define _LEVEL_H_
-#include <SDL2/SDL.h>
+
+#include <SDL.h>
+
 class Level {
 
     // Create a rectangle
-    SDL_Rect r;
+    SDL_Rect rects[5];
 
 public:
 Level();

@@ -62,7 +62,7 @@ main (int argc,
         renderer = SDL_CreateRenderer(
             window
             , -1                //Use first available driver
-            , 0                 //flags
+            , SDL_RENDERER_ACCELERATED                 //flags
         );
 
         if(renderer == NULL) {
