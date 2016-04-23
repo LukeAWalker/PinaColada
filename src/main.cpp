@@ -16,7 +16,7 @@ main menu, for instance.
 #include <SDL.h>
 #include <stdio.h>
 #include <debug.hpp>
-
+#include <level.hpp>
 
 /*DEFINES**********************************************************************/
 
@@ -30,9 +30,11 @@ main (int argc,
 {
     game_errno_type  rc = GAME_ERRNO_SUCCESS;
     int              sdl_rc;
-    SDL_Window      *window;
+    SDL_Window      *window = NULL;
     bool             quit = false;
     SDL_Event        event;
+    SDL_Renderer    *renderer = NULL;
+    Level           level;
 
     /*
      * Initialise SDL and create a window.
@@ -56,6 +58,18 @@ main (int argc,
         }
     }
 
+    if ( GAME_ERR_OK(rc)) {
+        renderer = SDL_CreateRenderer(
+            window
+            , -1                //Use first available driver
+            , 0                 //flags
+        );
+
+        if(renderer == NULL) {
+            rc = GAME_ERRNO_SDL_ERROR;
+        }
+    }
+
     /*
      * Run an event loop so you can quit.
      */
@@ -66,6 +80,9 @@ main (int argc,
                     quit = true;
                 }
             }
+
+            level.draw(renderer);
+            SDL_RenderPresent(renderer);
         }
     }
 
