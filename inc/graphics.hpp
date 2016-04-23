@@ -13,7 +13,9 @@ drawable class will contain
 
 /*INCLUDES*********************************************************************/
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
+#include <debug.hpp>
+#include <utils.hpp>
 
 /*DEFINES**********************************************************************/
 
@@ -58,7 +60,7 @@ class Graphics_Object {
          * Return: int @@@JH return an error code.
          *   Error code indicating success or reason for failure.
          */
-        int Create_texture_from_file(const char *path,
+        game_errno_type Create_texture_from_file(std::string path,
                                      Colour     *colour_key);
 
         /**
@@ -70,21 +72,21 @@ class Graphics_Object {
         * Return: int @@@JH make this some error code.
         *   Error code indicating success or the reason for failure.
         */
-        int Render();
+        game_errno_type Render();
 
         //Set *SCREEN* location (i.e. location on window, not level
         //location)
-        int Set_screen_location(SDL_Point xy_location);
+        game_errno_type Set_screen_location(SDL_Point xy_location);
 
         //Set/Reset texture associated with this graphics object
         //Set_texture(Texture texture);
 
         //Set/Reset Extents of this graphics object (i.e. size of object)
         //Measured in pixels of texture
-        int Set_extents(SDL_Point xy_size);
+        game_errno_type Set_extents(SDL_Point xy_size);
 
         //Set clipping area for textures with multiple sprites on
-        int Set_clip(SDL_Rect clip_area_in);
+        game_errno_type Set_clip(SDL_Rect clip_area_in);
     private:
         //variable for screen location
         SDL_Rect screen_area;
@@ -93,10 +95,10 @@ class Graphics_Object {
         SDL_Rect clip_area;
 
         //SDL texture object
-        SDL_Texture texture;
+        SDL_Texture *texture;
 
         //Renderer pointer
-        SDL_Renderer *renderer;
+        SDL_Renderer *rnd;
 };
 
 #endif //GRAPHICS_H_
