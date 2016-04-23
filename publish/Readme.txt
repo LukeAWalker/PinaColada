@@ -1,0 +1,1 @@
+This folder contains folders for debug and release publishes
