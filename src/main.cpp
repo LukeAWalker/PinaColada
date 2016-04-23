@@ -16,13 +16,9 @@ main menu, for instance.
 #include <SDL.h>
 #include <stdio.h>
 #include <debug.hpp>
-<<<<<<< HEAD
 #include <graphics.hpp>
 #include <SDL_image.h>
-
-=======
 #include <level.hpp>
->>>>>>> ae21f137ac0aa8db49ba01ec61be8a08dc26b82a
 
 /*DEFINES**********************************************************************/
 
@@ -40,12 +36,10 @@ main (int argc,
     bool             quit = false;
     SDL_Event        event;
     SDL_Renderer    *renderer = NULL;
-<<<<<<< HEAD
 //    Graphics_Object *go;
     int              img_flags = IMG_INIT_PNG;
-=======
     Level           level;
->>>>>>> ae21f137ac0aa8db49ba01ec61be8a08dc26b82a
+
 
     /*
      * Initialise SDL and create a window.
@@ -73,7 +67,6 @@ main (int argc,
         }
     }
 
-<<<<<<< HEAD
     /*if(GAME_ERR_OK(rc)) {
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     }
@@ -85,7 +78,6 @@ main (int argc,
     go->Set_extents(extents);
     SDL_Rect rect = {0,0,504,600};
     go->Set_clip(rect);*/
-=======
     if ( GAME_ERR_OK(rc)) {
         renderer = SDL_CreateRenderer(
             window
@@ -97,7 +89,6 @@ main (int argc,
             rc = GAME_ERRNO_SDL_ERROR;
         }
     }
->>>>>>> ae21f137ac0aa8db49ba01ec61be8a08dc26b82a
 
     /*
      * Run an event loop so you can quit.
@@ -110,7 +101,6 @@ main (int argc,
                 }
             }
 
-<<<<<<< HEAD
 /*            SDL_SetRenderDrawColor(renderer, 0xFF,0xFF,0xFF,0xFF);
             SDL_RenderClear(renderer);
             SDL_SetRenderDrawColor(renderer, 0x00,0x00,0x00,0xFF);
@@ -118,10 +108,8 @@ main (int argc,
             go->Render();
 
             SDL_RenderPresent(renderer);*/
-=======
             level.draw(renderer);
             SDL_RenderPresent(renderer);
->>>>>>> ae21f137ac0aa8db49ba01ec61be8a08dc26b82a
         }
     }
 
