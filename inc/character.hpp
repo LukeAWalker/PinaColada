@@ -38,6 +38,7 @@ class Character {
     public:
         //Default constructor and destructor
         Character(SDL_Renderer* renderer);
+        Character();
         ~Character();
 
         /**

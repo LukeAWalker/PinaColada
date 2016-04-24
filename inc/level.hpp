@@ -19,6 +19,9 @@ files.
 /*INCLUDES*********************************************************************/
 
 #include <SDL.h>
+#include <graphics.hpp>
+
+#define rectslength     11
 
 /*DEFINES**********************************************************************/
 
@@ -28,13 +31,14 @@ files.
 
 class Level {
 
-    // Create a rectangle
-    SDL_Rect rects[5];
-
 public:
-Level();
-void draw (SDL_Renderer* renderer);
 
+    // Create a rectangle
+    Graphics_Object* rects[rectslength];
+
+Level();
+//void draw (SDL_Renderer* renderer);
+void draw();
     //Renderer
  //  SDL_Renderer* renderer = SDL_CreateRenderer(MainWindow, -1, 0);
 

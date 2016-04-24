@@ -41,8 +41,10 @@ class Graphics_Object {
          */
         Graphics_Object(SDL_Renderer *renderer);
 
+
+
         //Default constructor/destructor - does bare minimum (i.e. nothing)
-        //Graphics_Object();
+        Graphics_Object();
         //~Graphics_Object();
 
         /**

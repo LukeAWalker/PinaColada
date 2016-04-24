@@ -32,14 +32,14 @@ main menu, for instance.
  *
  * The colour to clear the renderer with.
  */
-static Colour clear_colour = {0xFF, 0xFF, 0xFF, 0xFF};
+//static Colour clear_colour = {0xFF, 0xFF, 0xFF, 0xFF};
 
 
 /**
  * Set of static colours
  */
 //static Colour BLACK = {0x00, 0x00, 0x00, 0xFF};
-static Colour RED   = {0xFF, 0x00, 0x00, 0xFF};
+//static Colour RED   = {0xFF, 0x00, 0x00, 0xFF};
 
 /*MAIN CODE BODY***************************************************************/
 
@@ -76,16 +76,6 @@ game_errno_type SDL_Libraries_Quit() {
     return GAME_ERRNO_SUCCESS;
 }
 
-static void
-main_set_render_colour(SDL_Renderer *renderer,
-                       Colour       *colour) {
-    SDL_SetRenderDrawColor(renderer,
-                           colour->r,
-                           colour->g,
-                           colour->b,
-                           colour->a);
-}
-
 int
 main (int   argc,
       char* argv[])
@@ -94,11 +84,9 @@ main (int   argc,
     SDL_Window      *window = NULL;
     bool             quit = false;
     SDL_Event        event;
-    SDL_Renderer    *renderer = NULL;
-    Graphics_Object *go;
     Character       *main_char;
     int              img_flags = IMG_INIT_PNG;
-    Level            level;
+    Level           *level;
 
     /*
      * Initialise SDL, SDL_image and create a window.
@@ -119,24 +107,18 @@ main (int   argc,
         }
     }
 
-    if (GAME_ERR_OK(rc)) {
-        renderer = SDL_CreateRenderer(window,
-                                      -1,    //Use first available driver
-                                      SDL_RENDERER_ACCELERATED |
-                                      SDL_RENDERER_PRESENTVSYNC);
-
-        if (renderer == NULL) {
-            rc = GAME_ERRNO_SDL_ERROR;
-        }
-    }
+    GLOBAL_RENDERER = new Renderer_t();
+    if (GAME_ERR_OK(rc)) GLOBAL_RENDERER->Initiate_Global_Renderer(window);
 
     /**
      * Create a graphics object.
      */
     if (GAME_ERR_OK(rc)) {
-        main_char = new Character(renderer);
-        go = main_char->sprite;
+        main_char = new Character();
     }
+
+    level = new Level();
+    level->draw();
 
     /*
      * Run an event loop so you can quit.
@@ -150,19 +132,15 @@ main (int   argc,
 
                 main_char->handle_event(&event);
             }
+
             main_char->handle_logic();
-            main_set_render_colour(renderer, &clear_colour);
-            SDL_RenderClear(renderer);
-            main_set_render_colour(renderer, &RED);
-            go->Render();
-            level.draw(renderer);
-            SDL_RenderPresent(renderer);
+            GLOBAL_RENDERER->Draw();
         }
     }
 
-    delete go;
+    //delete main_char;
 
-    SDL_DestroyRenderer(renderer);
+    delete GLOBAL_RENDERER;
     SDL_DestroyWindow(window);
     window = NULL;
     SDL_Libraries_Quit();
