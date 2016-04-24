@@ -2,37 +2,38 @@
 #include <level.hpp>
 #include <utils.hpp>
 #include <iostream>
+#include <render.hpp>
 
 
-void Level::draw(SDL_Renderer* renderer) {
-
-<<<<<<< Updated upstream
-    rc= SDL_RenderFillRects(renderer, rects, 5);
-=======
-
+/*void Level::draw(SDL_Renderer* renderer) {
     for(int i = 0;i<rectslength;i++) {
         rects[i]->Render();
     }
+}*/
+
+void Level::draw() {
+    int a = 1+2;
+    int b = a;
+    a = b;
 }
 
-Level::Level(SDL_Renderer* renderer) {
+Level::Level() {
     SDL_Rect clipBase = {0,0,354,312};
     SDL_Rect clipPlatform = {0,0,600,300};
     Colour colour = {0,255,255,255};
     for(int i = 0; i<1;i++) {
-        rects[i] = new Graphics_Object(renderer);
->>>>>>> Stashed changes
-
+        //rects[i] = new Graphics_Object(renderer);
+        GLOBAL_RENDERER->Create_Graphics_Object(&(rects[i]),"../../resources/base.png", &colour);
         rects[i]->Set_clip(clipBase);
-        rects[i]->Create_texture_from_file("../../resources/base.png", &colour);
+        //rects[i]->Create_texture_from_file("../../resources/base.png", &colour);
 
     }
 
     for(int i = 1; i<rectslength;i++) {
-        rects[i] = new Graphics_Object(renderer);
-
+        //rects[i] = new Graphics_Object(renderer);
+        GLOBAL_RENDERER->Create_Graphics_Object(&(rects[i]),"../../resources/platform.png", &colour);
         rects[i]->Set_clip(clipPlatform);
-        rects[i]->Create_texture_from_file("../../resources/platform.png", &colour);
+        //rects[i]->Create_texture_from_file("../../resources/platform.png", &colour);
 
     }
 

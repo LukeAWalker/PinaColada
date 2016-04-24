@@ -21,32 +21,48 @@ related to rendering.
 
 #include <SDL.h>
 #include <debug.hpp>
+#include <vector>
+#include <graphics.hpp>
 
 /*CLASS DECLARATIONS***********************************************************/
 
-class Rendering_t {
+class Renderer_t {
     public:
         //Constructor: creates list of graphics objects
-        Rendering_t();
+        Renderer_t();
 
         //Constructor: creates list of graphics objects AND initiates global
         //renderer (see intiiate global renderer below)
-        Rendering_t(SDL_Window* window);
+        Renderer_t(SDL_Window* window);
 
         //Destructor: Deletes list of graphics objects, and also frees global
         //renderer
-        ~Rendering_t();
+        ~Renderer_t();
 
         //Initiates global renderer. Must be called before rendering.
         //Takes: SDL window - pointer to window object representing screen.
         game_errno_type Initiate_Global_Renderer(SDL_Window* window);
+
+        //Creates a graphics object and gives a pointer to the graphics object
+        //returns an error code. arguments
+        game_errno_type Create_Graphics_Object(Graphics_Object** go,
+                                               std::string texture_path,
+                                               Colour* col);
+
+        //Draws all the graphics objects in the graphics object list
+        //Returns an error code
+        game_errno_type Draw();
     private:
+        //Global renderer pointer
         SDL_Renderer* rnd;
+
+        //List of graphics objects to renderer
+        std::vector<Graphics_Object> sprite_list;
 };
 
 /*GLOBAL VARIABLES*************************************************************/
 
-//extern Renderer_t* GLOBAL_RENDERER;
+extern Renderer_t* GLOBAL_RENDERER;
 
 /*MAIN CODE BODY***************************************************************/
 

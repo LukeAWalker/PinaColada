@@ -44,7 +44,7 @@ class Graphics_Object {
 
 
         //Default constructor/destructor - does bare minimum (i.e. nothing)
-        //Graphics_Object();
+        Graphics_Object();
         //~Graphics_Object();
 
         /**

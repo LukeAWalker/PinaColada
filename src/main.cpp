@@ -16,16 +16,12 @@ main menu, for instance.
 #include <SDL.h>
 #include <stdio.h>
 #include <debug.hpp>
-<<<<<<< Updated upstream
 #include <graphics.hpp>
 #include <SDL_image.h>
 #include <level.hpp>
 #include <character.hpp>
 #include <utils.hpp>
 #include <render.hpp>
-=======
-#include <level.hpp>
->>>>>>> Stashed changes
 
 /*DEFINES**********************************************************************/
 
@@ -36,14 +32,14 @@ main menu, for instance.
  *
  * The colour to clear the renderer with.
  */
-static Colour clear_colour = {0xFF, 0xFF, 0xFF, 0xFF};
+//static Colour clear_colour = {0xFF, 0xFF, 0xFF, 0xFF};
 
 
 /**
  * Set of static colours
  */
 //static Colour BLACK = {0x00, 0x00, 0x00, 0xFF};
-static Colour RED   = {0xFF, 0x00, 0x00, 0xFF};
+//static Colour RED   = {0xFF, 0x00, 0x00, 0xFF};
 
 /*MAIN CODE BODY***************************************************************/
 
@@ -80,42 +76,17 @@ game_errno_type SDL_Libraries_Quit() {
     return GAME_ERRNO_SUCCESS;
 }
 
-static void
-main_set_render_colour(SDL_Renderer *renderer,
-                       Colour       *colour) {
-    SDL_SetRenderDrawColor(renderer,
-                           colour->r,
-                           colour->g,
-                           colour->b,
-                           colour->a);
-}
-
 int
 main (int   argc,
       char* argv[])
 {
     game_errno_type  rc = GAME_ERRNO_SUCCESS;
-<<<<<<< Updated upstream
-=======
-    int              sdl_rc;
->>>>>>> Stashed changes
     SDL_Window      *window = NULL;
     bool             quit = false;
     SDL_Event        event;
-    SDL_Renderer    *renderer = NULL;
-<<<<<<< Updated upstream
-    Graphics_Object *go;
     Character       *main_char;
     int              img_flags = IMG_INIT_PNG;
-<<<<<<< Updated upstream
-    Level            level;
-=======
-    Level           level;
->>>>>>> Stashed changes
-=======
     Level           *level;
-
->>>>>>> Stashed changes
 
     /*
      * Initialise SDL, SDL_image and create a window.
@@ -136,43 +107,19 @@ main (int   argc,
         }
     }
 
-<<<<<<< Updated upstream
-    if (GAME_ERR_OK(rc)) {
-        renderer = SDL_CreateRenderer(window,
-                                      -1,    //Use first available driver
-                                      SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    GLOBAL_RENDERER = new Renderer_t();
+    if (GAME_ERR_OK(rc)) GLOBAL_RENDERER->Initiate_Global_Renderer(window);
 
-        if (renderer == NULL) {
-=======
-    if ( GAME_ERR_OK(rc)) {
-        renderer = SDL_CreateRenderer(
-            window
-            , -1                //Use first available driver
-            , 0                 //flags
-        );
-
-        if(renderer == NULL) {
->>>>>>> Stashed changes
-            rc = GAME_ERRNO_SDL_ERROR;
-        }
-    }
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
     /**
      * Create a graphics object.
      */
     if (GAME_ERR_OK(rc)) {
-        main_char = new Character(renderer);
-        go = main_char->sprite;
+        main_char = new Character();
     }
 
-=======
->>>>>>> Stashed changes
-=======
-    level = new Level(renderer);
+    level = new Level();
+    level->draw();
 
->>>>>>> Stashed changes
     /*
      * Run an event loop so you can quit.
      */
@@ -185,28 +132,15 @@ main (int   argc,
 
                 main_char->handle_event(&event);
             }
-<<<<<<< Updated upstream
-            main_char->handle_logic();
-            main_set_render_colour(renderer, &clear_colour);
-            SDL_RenderClear(renderer);
-            main_set_render_colour(renderer, &RED);
-            go->Render();
-=======
 
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-            level.draw(renderer);
-=======
-            SDL_RenderPresent(renderer);*/
-            level->draw(renderer);
->>>>>>> Stashed changes
-            SDL_RenderPresent(renderer);
+            main_char->handle_logic();
+            GLOBAL_RENDERER->Draw();
         }
     }
 
-    delete go;
+    //delete main_char;
 
-    SDL_DestroyRenderer(renderer);
+    delete GLOBAL_RENDERER;
     SDL_DestroyWindow(window);
     window = NULL;
     SDL_Libraries_Quit();

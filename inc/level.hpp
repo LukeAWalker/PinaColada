@@ -31,13 +31,14 @@ files.
 
 class Level {
 
+public:
+
     // Create a rectangle
     Graphics_Object* rects[rectslength];
 
-public:
-Level(SDL_Renderer* renderer);
-void draw (SDL_Renderer* renderer);
-
+Level();
+//void draw (SDL_Renderer* renderer);
+void draw();
     //Renderer
  //  SDL_Renderer* renderer = SDL_CreateRenderer(MainWindow, -1, 0);
 

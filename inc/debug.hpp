@@ -20,6 +20,7 @@ enum game_errno_type {
     GAME_ERRNO_SDL_ERROR,
     GAME_ERRNO_BAD_PATH,
     GAME_ERRNO_IMG_ERROR,
+    GAME_ERRNO_ERROR
 };
 
 

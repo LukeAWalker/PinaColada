@@ -40,6 +40,16 @@ Graphics_Object::Graphics_Object(SDL_Renderer *renderer)
     clip_area = {0,0,0,0};
 }
 
+Graphics_Object::Graphics_Object()
+{
+    rnd = NULL;
+    texture = NULL;
+
+    //Set screen_area and clip_area, position to top left, width and height to 0
+    screen_area = {0,0,0,0};
+    clip_area = {0,0,0,0};
+}
+
 /**
  * create_texture_from_file
  *
