@@ -9,12 +9,19 @@ Description:
     Contains the character class. The character class contains all data
 relevant to the central character, currently:
     -Position & Extents
-    -Texture
+    -Graphics
     -Inventory
 
 *******************************************************************************/
 
+/*HEADER GUARDS****************************************************************/
+#ifndef CHARACTER_H_
+#define CHARACTER_H_
+
 /*INCLUDES*********************************************************************/
+
+#include <SDL.h>
+#include <graphics.hpp>
 
 /*DEFINES**********************************************************************/
 
@@ -22,11 +29,21 @@ relevant to the central character, currently:
 
 /*MAIN CODE BODY***************************************************************/
 
-#ifndef CHARACTER_H_
-#define CHARACTER_H_
-
 class Character {
+    public:
+        //Default constructor and destructor
+        Character(SDL_Renderer* renderer);
+        ~Character();
 
+        //Level position, size
+        SDL_Point   position;
+        SDL_Point   size;
+
+        //Character current speed (2D)
+        SDL_Point   speed;
+
+        //Graphics object
+        Graphics_Object* sprite;
 };
 
 #endif //CHARACTER_H_

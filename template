@@ -4,25 +4,26 @@ Title:      template
 Author:     Luke
 Date:       23/04/2016
 
-Description: 
+Description:
 
   A template containing the header for each file. This should help organise the
 project and give uniform code. Use the same header for .h files and .cpp
 files.
 
 *******************************************************************************/
-    
-/*INCLUDES*********************************************************************/
+
+/*HEADER GUARDS****************************************************************/
+#ifndef TEMPLATE_H_
+#define TEMPLATE_H_
 
 /*DEFINES**********************************************************************/
+
+/*INCLUDES*********************************************************************/
 
 /*GLOBAL VARIABLES*************************************************************/
 
 /*MAIN CODE BODY***************************************************************/
 
-//USE THE BELOW IF DOING A HEADER FILE
-
-#ifndef TEMPLATE_H_
-#define TEMPLATE_H_
+//Code here
 
 #endif //TEMPLATE_H_

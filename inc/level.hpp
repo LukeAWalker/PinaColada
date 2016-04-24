@@ -1,7 +1,30 @@
+/*******************************************************************************
+
+Title:      template
+Author:     Luke
+Date:       23/04/2016
+
+Description:
+
+  A template containing the header for each file. This should help organise the
+project and give uniform code. Use the same header for .h files and .cpp
+files.
+
+*******************************************************************************/
+
+/*HEADER GUARDS****************************************************************/
 #ifndef _LEVEL_H_
-    #define _LEVEL_H_
+#define _LEVEL_H_
+
+/*INCLUDES*********************************************************************/
 
 #include <SDL.h>
+
+/*DEFINES**********************************************************************/
+
+/*GLOBAL VARIABLES*************************************************************/
+
+/*MAIN CODE BODY***************************************************************/
 
 class Level {
 
@@ -20,4 +43,4 @@ void draw (SDL_Renderer* renderer);
 
 };
 
-#endif
+#endif //_LEVEL_H_
