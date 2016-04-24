@@ -29,6 +29,11 @@ relevant to the central character, currently:
 
 /*MAIN CODE BODY***************************************************************/
 
+enum CharacterState {
+    CHARACTER_STATE_GROUNDED,
+    CHARACTER_STATE_AERIAL,
+};
+
 class Character {
     public:
         //Default constructor and destructor
@@ -61,6 +66,7 @@ class Character {
 
         //Character current speed (2D)
         SDL_Point   speed;
+        CharacterState state;
 
 };
 

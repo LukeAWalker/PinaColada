@@ -17,6 +17,8 @@ Description:
 #include <graphics.hpp>
 #include <utils.hpp>
 
+#define GRAVITY 1
+
 /*DEFINES**********************************************************************/
 
 /*GLOBAL VARIABLES*************************************************************/
@@ -43,6 +45,7 @@ Character::Character(SDL_Renderer* renderer) {
     sprite->Set_extents(size);
     SDL_Rect clip_area = {0,0,100,100};
     sprite->Set_clip(clip_area);
+    state = CHARACTER_STATE_AERIAL;
 }
 
 Character::~Character() {
@@ -60,20 +63,20 @@ Character::handle_event(SDL_Event *e)
 {
     if (e->type == SDL_KEYDOWN) {
         switch (e->key.keysym.sym) {
-        case SDLK_DOWN:
-            speed.y = 1;
-            break;
 
         case SDLK_UP:
-            speed.y = -1;
+            if (state == CHARACTER_STATE_GROUNDED) {
+                speed.y = -25;
+                state = CHARACTER_STATE_AERIAL;
+            }
             break;
 
         case SDLK_LEFT:
-            speed.x = -1;
+            speed.x = -10;
             break;
 
         case SDLK_RIGHT:
-            speed.x = 1;
+            speed.x = 10;
             break;
 
         default:
@@ -84,10 +87,6 @@ Character::handle_event(SDL_Event *e)
         }
     } else if (e->type == SDL_KEYUP) {
         switch (e->key.keysym.sym) {
-        case SDLK_UP:
-        case SDLK_DOWN:
-            speed.y = 0;
-            break;
 
         case SDLK_LEFT:
         case SDLK_RIGHT:
@@ -109,6 +108,10 @@ Character::handle_event(SDL_Event *e)
 void
 Character::handle_logic()
 {
+    // Handle gravity!
+    speed.y += GRAVITY;
+
+    //Move
     position.x += speed.x;
     position.y += speed.y;
 
@@ -126,6 +129,8 @@ Character::handle_logic()
 
     if (position.y > 480 - size.y) {
         position.y = 480 - size.y;
+        speed.y = 0;
+        state = CHARACTER_STATE_GROUNDED;
     }
 
     sprite->Set_screen_location(position);
