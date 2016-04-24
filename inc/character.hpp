@@ -21,7 +21,9 @@ relevant to the central character, currently:
 /*INCLUDES*********************************************************************/
 
 #include <SDL.h>
+#include <character_state.hpp>
 #include <graphics.hpp>
+#include <vector>
 
 /*DEFINES**********************************************************************/
 
@@ -44,12 +46,12 @@ class Character {
         /**
          * handle_event
          *
-         * Handle a single SDL_Event
+         * Handle all SDL_Events for a frame
          *
-         * Argument: e
-         *   IN - The event to handle
+         * Argument: events
+         *   IN - The events to handle
          */
-        void handle_event(SDL_Event *e);
+        void handle_event(std::vector<SDL_Event> events);
 
         /**
          * handle_logic
@@ -57,6 +59,16 @@ class Character {
          * Perform any updates of the character class.
          */
         void handle_logic();
+
+        /**
+         * change_velocity
+         *
+         * Change the current velocity by adding some value to it.
+         *
+         * Argument: vel
+         *   IN - The velocity to add to the current velocity.
+         */
+        void change_velocity(SDL_Point vel);
 
         //Graphics object
         Graphics_Object* sprite;
@@ -66,8 +78,8 @@ class Character {
         SDL_Point   size;
 
         //Character current speed (2D)
-        SDL_Point   speed;
-        CharacterState state;
+        SDL_Point       speed;
+        CharState *state;
 
 };
 

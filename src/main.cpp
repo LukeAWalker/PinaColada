@@ -13,6 +13,7 @@ main menu, for instance.
 
 /*INCLUDES*********************************************************************/
 #include <iostream>
+#include <vector>
 #include <SDL.h>
 #include <stdio.h>
 #include <debug.hpp>
@@ -80,13 +81,14 @@ int
 main (int   argc,
       char* argv[])
 {
-    game_errno_type  rc = GAME_ERRNO_SUCCESS;
-    SDL_Window      *window = NULL;
-    bool             quit = false;
-    SDL_Event        event;
-    Character       *main_char;
-    int              img_flags = IMG_INIT_PNG;
-    Level           *level;
+    game_errno_type         rc = GAME_ERRNO_SUCCESS;
+    SDL_Window             *window = NULL;
+    bool                    quit = false;
+    SDL_Event               event;
+    Character              *main_char;
+    int                     img_flags = IMG_INIT_PNG;
+    Level                  *level;
+    std::vector<SDL_Event>  events;
 
     /*
      * Initialise SDL, SDL_image and create a window.
@@ -119,6 +121,7 @@ main (int   argc,
 
     level = new Level();
     level->draw();
+    events.reserve(30);
 
     /*
      * Run an event loop so you can quit.
@@ -128,13 +131,14 @@ main (int   argc,
             while (SDL_PollEvent(&event) != 0) {
                 if (event.type == SDL_QUIT) {
                     quit = true;
+                } else {
+                    events.push_back(event);
                 }
-
-                main_char->handle_event(&event);
             }
-
+            main_char->handle_event(events);
             main_char->handle_logic();
             GLOBAL_RENDERER->Draw();
+            events.clear();
         }
     }
 

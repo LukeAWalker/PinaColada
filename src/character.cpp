@@ -13,11 +13,13 @@ Description:
 /*INCLUDES*********************************************************************/
 
 #include "character.hpp"
+#include <character_state.hpp>
 #include <SDL.h>
 #include <graphics.hpp>
 #include <utils.hpp>
 #include <render.hpp>
 #include <iostream>
+#include <vector>
 
 #define GRAVITY 1
 
@@ -45,6 +47,7 @@ Character::Character() {
     sprite->Set_extents(size);
     SDL_Rect clip_area = {0,0,224,326};
     sprite->Set_clip(clip_area);
+    state = new AerialState();
 }
 
 Character::Character(SDL_Renderer* renderer) {
@@ -65,7 +68,7 @@ Character::Character(SDL_Renderer* renderer) {
     sprite->Set_extents(size);
     SDL_Rect clip_area = {0,0,224,326};
     sprite->Set_clip(clip_area);
-    state = CHARACTER_STATE_AERIAL;
+    state = new AerialState();
 }
 
 Character::~Character() {
@@ -79,43 +82,15 @@ Character::~Character() {
  * See character.hpp
  */
 void
-Character::handle_event(SDL_Event *e)
+Character::handle_event(std::vector<SDL_Event> events)
 {
-    if (e->type == SDL_KEYDOWN) {
-        switch (e->key.keysym.sym) {
+    CharState *new_state = NULL;
 
-        case SDLK_UP:
-            if (state == CHARACTER_STATE_GROUNDED) {
-                speed.y = -25;
-                state = CHARACTER_STATE_AERIAL;
-            }
-            break;
+    new_state = state->handle_input(this, events);
 
-        case SDLK_LEFT:
-            speed.x = -10;
-            break;
-
-        case SDLK_RIGHT:
-            speed.x = 10;
-            break;
-
-        default:
-            /**
-            * Don't do anything.
-            */
-            break;
-        }
-    } else if (e->type == SDL_KEYUP) {
-        switch (e->key.keysym.sym) {
-
-        case SDLK_LEFT:
-        case SDLK_RIGHT:
-            speed.x = 0;
-            break;
-
-        default:
-            break;
-        }
+    if (new_state != NULL) {
+        delete state;
+        state = new_state;
     }
 }
 
@@ -150,8 +125,17 @@ Character::handle_logic()
     if (position.y > 480 - size.y) {
         position.y = 480 - size.y;
         speed.y = 0;
-        state = CHARACTER_STATE_GROUNDED;
+        delete state;
+        state = new GroundedState();
     }
 
     sprite->Set_screen_location(position);
+}
+
+
+void
+Character::change_velocity(SDL_Point vel)
+{
+    speed.x += vel.x;
+    speed.y += vel.y;
 }
