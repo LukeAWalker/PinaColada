@@ -39,11 +39,11 @@ Character::Character() {
     //At this point, we know the graphics object has these parameters
     //TODO: may want to change these later to actual setup code
     Colour temp_col = {0x00,0xFF,0xFF,0xFF};
-    GLOBAL_RENDERER->Create_Graphics_Object(&sprite, "main_char.png", &temp_col);
+    GLOBAL_RENDERER->Create_Graphics_Object(&sprite, "../../resources/masterchief.png", &temp_col);
 
     sprite->Set_screen_location(position);
     sprite->Set_extents(size);
-    SDL_Rect clip_area = {0,0,100,100};
+    SDL_Rect clip_area = {0,0,224,326};
     sprite->Set_clip(clip_area);
 }
 
@@ -59,11 +59,11 @@ Character::Character(SDL_Renderer* renderer) {
     //At this point, we know the graphics object has these parameters
     //TODO: may want to change these later to actual setup code
     Colour temp_col = {0x00,0xFF,0xFF,0xFF};
-    GLOBAL_RENDERER->Create_Graphics_Object(&sprite, "main_char.png", &temp_col);
+    GLOBAL_RENDERER->Create_Graphics_Object(&sprite, "../../resources/masterchief.png", &temp_col);
 
     sprite->Set_screen_location(position);
     sprite->Set_extents(size);
-    SDL_Rect clip_area = {0,0,100,100};
+    SDL_Rect clip_area = {0,0,224,326};
     sprite->Set_clip(clip_area);
     state = CHARACTER_STATE_AERIAL;
 }
