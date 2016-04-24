@@ -5,6 +5,7 @@
  */
 #include <assert.h>
 #include <string>
+#include <SDL_image.h>
 #include <SDL.h>
 #include <debug.hpp>
 
@@ -28,11 +29,15 @@ game_errno_strerror (game_errno_type rc)
         break;
 
     case GAME_ERRNO_SDL_ERROR:
-        return_string = (char *)SDL_GetError();
+        return_string = SDL_GetError();
         break;
 
     case GAME_ERRNO_BAD_PATH:
         return_string = "Invalid path to texture image supplied";
+        break;
+
+    case GAME_ERRNO_IMG_ERROR:
+        return_string = IMG_GetError();
         break;
 
     default:

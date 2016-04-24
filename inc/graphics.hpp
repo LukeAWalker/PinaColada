@@ -60,8 +60,8 @@ class Graphics_Object {
          * Return: int @@@JH return an error code.
          *   Error code indicating success or reason for failure.
          */
-        game_errno_type Create_texture_from_file(std::string path,
-                                     Colour     *colour_key);
+        game_errno_type Create_texture_from_file(std::string  path,
+                                                 Colour      *colour_key);
 
         /**
         * render

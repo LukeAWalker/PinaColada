@@ -24,10 +24,34 @@ main menu, for instance.
 
 /*GLOBAL VARIABLES*************************************************************/
 
+/**
+ * clear_colour
+ *
+ * The colour to clear the renderer with.
+ */
+static Colour clear_colour = {0xFF, 0xFF, 0xFF, 0xFF};
+
+
+/**
+ * Set of static colours
+ */
+static Colour BLACK = {0x00, 0x00, 0x00, 0xFF};
+static Colour RED   = {0xFF, 0x00, 0x00, 0xFF};
+
 /*MAIN CODE BODY***************************************************************/
 
+static void
+main_set_render_colour(SDL_Renderer *renderer,
+                       Colour       *colour) {
+    SDL_SetRenderDrawColor(renderer,
+                           colour->r,
+                           colour->g,
+                           colour->b,
+                           colour->a);
+}
+
 int
-main (int argc,
+main (int   argc,
       char* argv[])
 {
     game_errno_type  rc = GAME_ERRNO_SUCCESS;
@@ -36,22 +60,28 @@ main (int argc,
     bool             quit = false;
     SDL_Event        event;
     SDL_Renderer    *renderer = NULL;
-//    Graphics_Object *go;
+    Graphics_Object *go;
     int              img_flags = IMG_INIT_PNG;
-    Level           level;
+    Level            level;
+    SDL_Point        pos = {100, 100};
+    SDL_Point        extent = {100, 50};
+    SDL_Rect         clip = {0, 0, 504, 600};
 
 
     /*
-     * Initialise SDL and create a window.
+     * Initialise SDL, SDL_image and create a window.
      */
     if (GAME_ERR_OK(rc)) {
         sdl_rc = SDL_Init(SDL_INIT_VIDEO);
         if (sdl_rc < 0) {
             rc = GAME_ERRNO_SDL_ERROR;
         }
+    }
+
+    if (GAME_ERR_OK(rc)) {
         sdl_rc = IMG_Init(img_flags);
         if ((sdl_rc & img_flags) != img_flags) {
-            rc = GAME_ERRNO_SDL_ERROR;
+            rc = GAME_ERRNO_IMG_ERROR;
         }
     }
 
@@ -67,26 +97,26 @@ main (int argc,
         }
     }
 
-    /*if(GAME_ERR_OK(rc)) {
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    }
-    go = new Graphics_Object(renderer);
-    Colour newcol = {0,0,0,0};
-    rc = go->Create_texture_from_file("main_char.png", &newcol);
-    SDL_Point point = {100,100}, extents = {100,50};
-    go->Set_screen_location(point);
-    go->Set_extents(extents);
-    SDL_Rect rect = {0,0,504,600};
-    go->Set_clip(rect);*/
-    if ( GAME_ERR_OK(rc)) {
-        renderer = SDL_CreateRenderer(
-            window
-            , -1                //Use first available driver
-            , SDL_RENDERER_ACCELERATED                 //flags
-        );
+    if (GAME_ERR_OK(rc)) {
+        renderer = SDL_CreateRenderer(window,
+                                      -1,    //Use first available driver
+                                      SDL_RENDERER_ACCELERATED);
 
-        if(renderer == NULL) {
+        if (renderer == NULL) {
             rc = GAME_ERRNO_SDL_ERROR;
+        }
+    }
+
+    /**
+     * Create a graphics object.
+     */
+    if (GAME_ERR_OK(rc)) {
+        go = new Graphics_Object(renderer);
+        rc = go->Create_texture_from_file("main_char.png", &BLACK);
+        if (GAME_ERR_OK(rc)) {
+            go->Set_screen_location(pos);
+            go->Set_extents(extent);
+            go->Set_clip(clip);
         }
     }
 
@@ -100,20 +130,16 @@ main (int argc,
                     quit = true;
                 }
             }
-
-/*            SDL_SetRenderDrawColor(renderer, 0xFF,0xFF,0xFF,0xFF);
+            main_set_render_colour(renderer, &clear_colour);
             SDL_RenderClear(renderer);
-            SDL_SetRenderDrawColor(renderer, 0x00,0x00,0x00,0xFF);
-
+            main_set_render_colour(renderer, &RED);
             go->Render();
-
-            SDL_RenderPresent(renderer);*/
             level.draw(renderer);
             SDL_RenderPresent(renderer);
         }
     }
 
-//    delete go;
+    delete go;
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

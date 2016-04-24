@@ -26,7 +26,7 @@ $(EXE_PATH)\PinaColada.exe: $(OBJ_FILES)
 	cmd /c copy .\lib\SDL2-2.0.4\i686-w64-mingw32\bin\SDL2.dll .\publish\debug
 	cmd /c copy .\lib\SDL2_image-2.0.1\i686-w64-mingw32\bin\SDL2_image.dll .\publish\debug
 	cmd /c copy .\lib\SDL2_image-2.0.1\i686-w64-mingw32\bin\libpng16-16.dll .\publish\debug
-	#lib\SDL2_image-2.0.1\i686-w64-mingw32\bin\zlib1.dll
+#lib\SDL2_image-2.0.1\i686-w64-mingw32\bin\zlib1.dll
 
 obj/%.o: src/%.cpp
 	g++ $(CC_FLAGS) -std=gnu++11 -c -o $@ $<

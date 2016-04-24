@@ -6,11 +6,6 @@
 void Level::draw(SDL_Renderer* renderer) {
     int rc = 0;
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
-    SDL_RenderClear(renderer); // fill the scene with white
-
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // the rect color (solid red)
     rc= SDL_RenderFillRects(renderer, rects, 5);
 
     if(rc!=0) {
