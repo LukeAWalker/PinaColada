@@ -40,7 +40,7 @@ Character::Character(SDL_Renderer* renderer) {
     //At this point, we know the graphics object has these parameters
     //TODO: may want to change these later to actual setup code
     Colour temp_col = {0x00,0xFF,0xFF,0xFF};
-    sprite->Create_texture_from_file("main_char.png",&temp_col);
+    sprite->Create_texture_from_file("main_char.png", &temp_col);
     sprite->Set_screen_location(position);
     sprite->Set_extents(size);
     SDL_Rect clip_area = {0,0,100,100};
