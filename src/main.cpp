@@ -122,7 +122,7 @@ main (int   argc,
     if (GAME_ERR_OK(rc)) {
         renderer = SDL_CreateRenderer(window,
                                       -1,    //Use first available driver
-                                      SDL_RENDERER_ACCELERATED);
+                                      SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
         if (renderer == NULL) {
             rc = GAME_ERRNO_SDL_ERROR;
