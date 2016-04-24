@@ -35,6 +35,26 @@ class Character {
         Character(SDL_Renderer* renderer);
         ~Character();
 
+        /**
+         * handle_event
+         *
+         * Handle a single SDL_Event
+         *
+         * Argument: e
+         *   IN - The event to handle
+         */
+        void handle_event(SDL_Event *e);
+
+        /**
+         * handle_logic
+         *
+         * Perform any updates of the character class.
+         */
+        void handle_logic();
+
+        //Graphics object
+        Graphics_Object* sprite;
+    private:
         //Level position, size
         SDL_Point   position;
         SDL_Point   size;
@@ -42,8 +62,6 @@ class Character {
         //Character current speed (2D)
         SDL_Point   speed;
 
-        //Graphics object
-        Graphics_Object* sprite;
 };
 
 #endif //CHARACTER_H_

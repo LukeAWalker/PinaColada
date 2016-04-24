@@ -44,3 +44,89 @@ Character::Character(SDL_Renderer* renderer) {
     SDL_Rect clip_area = {0,0,100,100};
     sprite->Set_clip(clip_area);
 }
+
+Character::~Character() {
+    delete sprite;
+}
+
+
+/**
+ * Character::handle_event
+ *
+ * See character.hpp
+ */
+void
+Character::handle_event(SDL_Event *e)
+{
+    if (e->type == SDL_KEYDOWN) {
+        switch (e->key.keysym.sym) {
+        case SDLK_DOWN:
+            speed.y = 1;
+            break;
+
+        case SDLK_UP:
+            speed.y = -1;
+            break;
+
+        case SDLK_LEFT:
+            speed.x = -1;
+            break;
+
+        case SDLK_RIGHT:
+            speed.x = 1;
+            break;
+
+        default:
+            /**
+            * Don't do anything.
+            */
+            break;
+        }
+    } else if (e->type == SDL_KEYUP) {
+        switch (e->key.keysym.sym) {
+        case SDLK_UP:
+        case SDLK_DOWN:
+            speed.y = 0;
+            break;
+
+        case SDLK_LEFT:
+        case SDLK_RIGHT:
+            speed.x = 0;
+            break;
+
+        default:
+            break;
+        }
+    }
+}
+
+
+/**
+ * Character::handle_updates
+ *
+ * See character.hpp
+ */
+void
+Character::handle_logic()
+{
+    position.x += speed.x;
+    position.y += speed.y;
+
+    if (position.x < 0) {
+        position.x = 0;
+    }
+
+    if (position.x > 600 - size.x) {
+        position.x = 600 - size.x;
+    }
+
+    if (position.y < 0) {
+        position.y = 0;
+    }
+
+    if (position.y > 480 - size.y) {
+        position.y = 480 - size.y;
+    }
+
+    sprite->Set_screen_location(position);
+}

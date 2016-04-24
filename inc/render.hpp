@@ -46,7 +46,7 @@ class Rendering_t {
 
 /*GLOBAL VARIABLES*************************************************************/
 
-extern Renderer_t* GLOBAL_RENDERER;
+//extern Renderer_t* GLOBAL_RENDERER;
 
 /*MAIN CODE BODY***************************************************************/
 

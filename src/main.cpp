@@ -103,7 +103,9 @@ main (int   argc,
     /*
      * Initialise SDL, SDL_image and create a window.
      */
-     if(GAME_ERR_OK(rc)) rc = SDL_Libraries_Initiation(img_flags);
+    if (GAME_ERR_OK(rc)) {
+        rc = SDL_Libraries_Initiation(img_flags);
+    }
 
     if (GAME_ERR_OK(rc)) {
         window = SDL_CreateWindow("Test",
@@ -117,7 +119,15 @@ main (int   argc,
         }
     }
 
-    if (GAME_ERR_OK(rc)) Rendering_Functions::Initiate_Global_Renderer(window);
+    if (GAME_ERR_OK(rc)) {
+        renderer = SDL_CreateRenderer(window,
+                                      -1,    //Use first available driver
+                                      SDL_RENDERER_ACCELERATED);
+
+        if (renderer == NULL) {
+            rc = GAME_ERRNO_SDL_ERROR;
+        }
+    }
 
     /**
      * Create a graphics object.
@@ -136,7 +146,10 @@ main (int   argc,
                 if (event.type == SDL_QUIT) {
                     quit = true;
                 }
+
+                main_char->handle_event(&event);
             }
+            main_char->handle_logic();
             main_set_render_colour(renderer, &clear_colour);
             SDL_RenderClear(renderer);
             main_set_render_colour(renderer, &RED);

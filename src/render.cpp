@@ -20,10 +20,10 @@ render.hpp
 
 /*GLOBAL VARIABLES*************************************************************/
 
-Renderer_t* GLOBAL_RENDERER;
+//Renderer_t* GLOBAL_RENDERER;
 
 /*MAIN CODE BODY***************************************************************/
-
+#if 0
 game_errno_type Rendering_Functions::Initiate_Global_Renderer(SDL_Window* window) {
     game_errno_type rc = GAME_ERRNO_SUCCESS;
 
@@ -37,3 +37,4 @@ game_errno_type Rendering_Functions::Initiate_Global_Renderer(SDL_Window* window
 
     return rc;
 }
+#endif
