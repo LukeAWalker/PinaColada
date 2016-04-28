@@ -31,11 +31,6 @@ relevant to the central character, currently:
 
 /*MAIN CODE BODY***************************************************************/
 
-enum CharacterState {
-    CHARACTER_STATE_GROUNDED,
-    CHARACTER_STATE_AERIAL,
-};
-
 class Character {
     public:
         //Default constructor and destructor
@@ -80,6 +75,16 @@ class Character {
          */
         SDL_Point get_velocity();
 
+        /**
+         * change_state
+         *
+         * Change the current character state
+         *
+         * Argument: new_state
+         *   IN - The state to change to.
+         */
+        void change_state(character_state_type new_state);
+
         //Graphics object
         Graphics_Object* sprite;
     private:
@@ -89,7 +94,8 @@ class Character {
 
         //Character current speed (2D)
         SDL_Point       speed;
-        CharState *state;
+        CharState            *state;
+        character_state_type  current_state;
 
 };
 

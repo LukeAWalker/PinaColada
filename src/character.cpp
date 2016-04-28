@@ -18,6 +18,7 @@ Description:
 #include <graphics.hpp>
 #include <utils.hpp>
 #include <render.hpp>
+#include <assert.h>
 #include <iostream>
 #include <vector>
 
@@ -84,14 +85,11 @@ Character::~Character() {
 void
 Character::handle_event(std::vector<SDL_Event>& events)
 {
-    CharState *new_state = NULL;
+    character_state_type new_state;
 
     new_state = state->handle_input(this, events);
 
-    if (new_state != NULL) {
-        delete state;
-        state = new_state;
-    }
+    this->change_state(new_state);
 }
 
 
@@ -126,19 +124,20 @@ Character::handle_logic()
         position.y = 480 - size.y;
         speed.y = 0;
         /**
-         * TODO: We change state on every loop - need to fix this.
+         * TODO: We change state on every loop - need to fix this. There's also
+         * a bug here where we don't reset the horizontal speed on landing.
          */
-        delete state;
-        state = new GroundedState();
+        this->change_state(CHARACTER_STATE_GROUNDED);
     }
-
-    std::cout << "Position(" << position.x << "," << position.y << ")\n";
-    std::cout << "Velocity(" << speed.x << "," << speed.y << ")\n";
 
     sprite->Set_screen_location(position);
 }
 
-
+/**
+ * Character::set_velocity
+ *
+ * See character.hpp
+ */
 void
 Character::set_velocity(SDL_Point vel)
 {
@@ -146,7 +145,38 @@ Character::set_velocity(SDL_Point vel)
     speed.y = vel.y;
 }
 
-SDL_Point Character::get_velocity()
+/**
+ * Character::get_velocity
+ *
+ * See character.hpp
+ */
+SDL_Point
+Character::get_velocity()
 {
     return (speed);
+}
+
+void
+Character::change_state(character_state_type new_state)
+{
+    // Perform a state change and call the enter function, but only if the state
+    // has changed.
+    if (new_state != current_state) {
+        delete state;
+        switch (new_state) {
+        case CHARACTER_STATE_AERIAL:
+            state = new AerialState();
+            break;
+
+        case CHARACTER_STATE_GROUNDED:
+            state = new GroundedState();
+            break;
+
+        default:
+            assert(!"Invalid state change attempted");
+            break;
+        }
+        current_state = new_state;
+        state->enter(this);
+    }
 }
