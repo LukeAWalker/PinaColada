@@ -9,6 +9,7 @@
 #include <character_state.hpp>
 
 #define KEY_PRESSED(key, key_states) ((key_states)[(key)] != 0)
+#define MAX_SPEED 10
 
 /**
  * AerialState::handle_event
@@ -17,29 +18,34 @@
  */
 CharState*
 AerialState::handle_input(Character              *character,
-                          std::vector<SDL_Event>  events)
+                          std::vector<SDL_Event>&  events)
 {
     uint32_t       i;
     SDL_Event      e;
-    const uint8_t *keyboard_states = NULL;
     SDL_Point      new_velocity;
 
-    keyboard_states = SDL_GetKeyboardState(NULL);
-
+    new_velocity = character->get_velocity();
+    /**
+     * TODO: Might be better done with key states
+     */
     // Handle any key events that come in.
     for (i = 0; i < events.size(); i++) {
         e = events[i];
-        if (e.type == SDL_KEYDOWN) {
+        if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
             switch (e.key.keysym.sym) {
             case SDLK_LEFT:
-                if (!KEY_PRESSED(SDLK_RIGHT, keyboard_states)) {
-                    new_velocity.x = -10;
+                if (new_velocity.x > -MAX_SPEED) {
+                    new_velocity.x -= 2;
+                } else {
+                    new_velocity.x = -MAX_SPEED;
                 }
                 break;
 
             case SDLK_RIGHT:
-                if (!KEY_PRESSED(SDLK_LEFT, keyboard_states)) {
-                    new_velocity.x = 10;
+                if (new_velocity.x < MAX_SPEED) {
+                    new_velocity.x += 2;
+                } else {
+                    new_velocity.x = MAX_SPEED;
                 }
                 break;
 
@@ -47,22 +53,9 @@ AerialState::handle_input(Character              *character,
                 // Don't do anything.
                 break;
             }
-        } else if (e.type == SDL_KEYUP) {
-            switch (e.key.keysym.sym) {
-            case SDLK_LEFT:
-            case SDLK_RIGHT:
-                if (!KEY_PRESSED(SDLK_LEFT, keyboard_states) &&
-                    !KEY_PRESSED(SDLK_RIGHT, keyboard_states)) {
-                        new_velocity.x = 0;
-                }
-                break;
-
-            default:
-                break;
-            }
         }
     }
-    character->change_velocity(new_velocity);
+    character->set_velocity(new_velocity);
 
     return (NULL); //Don't change state.
 }
@@ -74,30 +67,33 @@ AerialState::handle_input(Character              *character,
  */
 CharState*
 GroundedState::handle_input(Character              *character,
-                           std::vector<SDL_Event>  events)
+                           std::vector<SDL_Event>&  events)
 {
     uint32_t       i;
     SDL_Event      e;
-    const uint8_t *keyboard_states = NULL;
     SDL_Point      new_velocity;
     CharState     *new_state = NULL;
 
-    keyboard_states = SDL_GetKeyboardState(NULL);
+    new_velocity = character->get_velocity();
 
     // Handle any key events that come in.
     for (i = 0; i < events.size(); i++) {
         e = events[i];
-        if (e.type == SDL_KEYDOWN) {
+        if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
             switch (e.key.keysym.sym) {
             case SDLK_LEFT:
-                if (!KEY_PRESSED(SDLK_RIGHT, keyboard_states)) {
-                    new_velocity.x = -10;
+                if (new_velocity.x > -MAX_SPEED) {
+                    new_velocity.x -= 10;
+                } else {
+                    new_velocity.x = -MAX_SPEED;
                 }
                 break;
 
             case SDLK_RIGHT:
-                if (!KEY_PRESSED(SDLK_LEFT, keyboard_states)) {
-                    new_velocity.x = 10;
+                if (new_velocity.x < MAX_SPEED) {
+                    new_velocity.x += 10;
+                } else {
+                    new_velocity.x = MAX_SPEED;
                 }
                 break;
 
@@ -110,14 +106,14 @@ GroundedState::handle_input(Character              *character,
                 // Don't do anything.
                 break;
             }
-        } else if (e.type == SDL_KEYUP) {
+        } else if (e.type == SDL_KEYUP && e.key.repeat == 0) {
             switch (e.key.keysym.sym) {
             case SDLK_LEFT:
+                new_velocity.x += 10;
+                break;
+
             case SDLK_RIGHT:
-                if (!KEY_PRESSED(SDLK_LEFT, keyboard_states) &&
-                    !KEY_PRESSED(SDLK_RIGHT, keyboard_states)) {
-                        new_velocity.x = 0;
-                }
+                new_velocity.x -= 10;
                 break;
 
             default:
@@ -126,7 +122,7 @@ GroundedState::handle_input(Character              *character,
         }
     }
 
-    character->change_velocity(new_velocity);
+    character->set_velocity(new_velocity);
 
     return (new_state);
 }

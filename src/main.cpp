@@ -121,7 +121,6 @@ main (int   argc,
 
     level = new Level();
     level->draw();
-    events.reserve(30);
 
     /*
      * Run an event loop so you can quit.

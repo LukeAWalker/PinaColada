@@ -51,7 +51,7 @@ class Character {
          * Argument: events
          *   IN - The events to handle
          */
-        void handle_event(std::vector<SDL_Event> events);
+        void handle_event(std::vector<SDL_Event>& events);
 
         /**
          * handle_logic
@@ -61,14 +61,24 @@ class Character {
         void handle_logic();
 
         /**
-         * change_velocity
+         * set_velocity
          *
-         * Change the current velocity by adding some value to it.
+         * Set the current velocity
          *
          * Argument: vel
          *   IN - The velocity to add to the current velocity.
          */
-        void change_velocity(SDL_Point vel);
+        void set_velocity(SDL_Point vel);
+
+        /**
+         * get_velocity
+         *
+         * Get the current velocity
+         *
+         * Return: SDL_Point
+         *   The current character velocity
+         */
+        SDL_Point get_velocity();
 
         //Graphics object
         Graphics_Object* sprite;

@@ -82,7 +82,7 @@ Character::~Character() {
  * See character.hpp
  */
 void
-Character::handle_event(std::vector<SDL_Event> events)
+Character::handle_event(std::vector<SDL_Event>& events)
 {
     CharState *new_state = NULL;
 
@@ -125,17 +125,28 @@ Character::handle_logic()
     if (position.y > 480 - size.y) {
         position.y = 480 - size.y;
         speed.y = 0;
+        /**
+         * TODO: We change state on every loop - need to fix this.
+         */
         delete state;
         state = new GroundedState();
     }
+
+    std::cout << "Position(" << position.x << "," << position.y << ")\n";
+    std::cout << "Velocity(" << speed.x << "," << speed.y << ")\n";
 
     sprite->Set_screen_location(position);
 }
 
 
 void
-Character::change_velocity(SDL_Point vel)
+Character::set_velocity(SDL_Point vel)
 {
-    speed.x += vel.x;
-    speed.y += vel.y;
+    speed.x = vel.x;
+    speed.y = vel.y;
+}
+
+SDL_Point Character::get_velocity()
+{
+    return (speed);
 }

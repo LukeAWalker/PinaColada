@@ -38,8 +38,8 @@ public:
      *   Pointer to the state to transition to, or NULL if no state transition
      *   is required.
      */
-    virtual CharState* handle_input(Character              *character,
-                                    std::vector<SDL_Event>  events) = 0;
+    virtual CharState* handle_input(Character               *character,
+                                    std::vector<SDL_Event>&  events) = 0;
 };
 
 
@@ -48,7 +48,7 @@ public:
     AerialState() {};
     ~AerialState() {};
     CharState* handle_input(Character              *character,
-                            std::vector<SDL_Event>  events);
+                            std::vector<SDL_Event>&  events);
 };
 
 class GroundedState: public CharState {
@@ -56,7 +56,7 @@ public:
     GroundedState() {};
     ~GroundedState() {};
     CharState* handle_input(Character              *character,
-                            std::vector<SDL_Event>  events);
+                            std::vector<SDL_Event>&  events);
 };
 
 #endif //CHARACTER_STATE_H_
