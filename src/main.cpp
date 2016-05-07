@@ -85,7 +85,6 @@ main (int   argc,
     SDL_Window             *window = NULL;
     bool                    quit = false;
     SDL_Event               event;
-    Character              *main_char;
     int                     img_flags = IMG_INIT_PNG;
     Level                  *level;
     std::vector<SDL_Event>  events;
@@ -112,15 +111,7 @@ main (int   argc,
     GLOBAL_RENDERER = new Renderer_t();
     if (GAME_ERR_OK(rc)) GLOBAL_RENDERER->Initiate_Global_Renderer(window);
 
-    /**
-     * Create a graphics object.
-     */
-    if (GAME_ERR_OK(rc)) {
-        main_char = new Character();
-    }
-
     level = new Level();
-    level->draw();
 
     /*
      * Run an event loop so you can quit.
@@ -134,15 +125,14 @@ main (int   argc,
                     events.push_back(event);
                 }
             }
-            main_char->handle_event(events);
-            main_char->handle_logic();
+            level->Characters[0]->handle_event(events);
+            level->Characters[0]->handle_logic();
             GLOBAL_RENDERER->Draw();
             events.clear();
         }
     }
 
-    //delete main_char;
-
+    delete level;
     delete GLOBAL_RENDERER;
     SDL_DestroyWindow(window);
     window = NULL;

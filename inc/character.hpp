@@ -24,6 +24,7 @@ relevant to the central character, currently:
 #include <character_state.hpp>
 #include <graphics.hpp>
 #include <vector>
+#include <string>
 
 /*DEFINES**********************************************************************/
 
@@ -35,6 +36,7 @@ class Character {
     public:
         //Default constructor and destructor
         Character(SDL_Renderer* renderer);
+        Character(std::string texture_path, SDL_Rect level_coords);
         Character();
         ~Character();
 

@@ -21,6 +21,7 @@ Description:
 #include <assert.h>
 #include <iostream>
 #include <vector>
+#include <string>
 
 #define GRAVITY 1
 
@@ -46,6 +47,25 @@ Character::Character() {
 
     sprite->Set_screen_location(position);
     sprite->Set_extents(size);
+    SDL_Rect clip_area = {0,0,224,326};
+    sprite->Set_clip(clip_area);
+    state = new AerialState();
+}
+
+Character::Character(std::string texture_path, SDL_Rect level_coords) {
+    //Set character position, extents and speed
+    speed.x = 0;
+    speed.y = 0;
+
+    //At this point, we know the graphics object has these parameters
+    //TODO: may want to change these later to actual setup code
+    Colour temp_col = {0x00,0xFF,0xFF,0xFF};
+    GLOBAL_RENDERER->Create_Graphics_Object(&sprite, texture_path, &temp_col);
+
+    size.x = level_coords.w;
+    size.y = level_coords.h;
+
+    sprite->Set_position_size(level_coords);
     SDL_Rect clip_area = {0,0,224,326};
     sprite->Set_clip(clip_area);
     state = new AerialState();

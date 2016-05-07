@@ -122,6 +122,13 @@ game_errno_type Graphics_Object::Set_screen_location(SDL_Point xy_location) {
     return GAME_ERRNO_SUCCESS;
 }
 
+//Function for setting location and extents simultaneously
+game_errno_type Graphics_Object::Set_position_size(SDL_Rect area) {
+    screen_area = area;
+
+    return GAME_ERRNO_SUCCESS;
+}
+
 //Set/Reset texture associated with this graphics object
 //Set_texture(Texture texture);
 

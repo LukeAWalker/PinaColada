@@ -2,97 +2,107 @@
 #include <level.hpp>
 #include <utils.hpp>
 #include <iostream>
+#include <fstream>
 #include <render.hpp>
-
-
-/*void Level::draw(SDL_Renderer* renderer) {
-    for(int i = 0;i<rectslength;i++) {
-        rects[i]->Render();
-    }
-}*/
-
-void Level::draw() {
-    int a = 1+2;
-    int b = a;
-    a = b;
-}
+#include <string.h>
+#include "debug.hpp"
+#include "block.hpp"
+#include "character.hpp"
 
 Level::Level() {
     SDL_Rect clipBase = {0,0,354,312};
     SDL_Rect clipPlatform = {0,0,600,300};
-    Colour colour = {0,255,255,255};
-    for(int i = 0; i<1;i++) {
-        //rects[i] = new Graphics_Object(renderer);
-        GLOBAL_RENDERER->Create_Graphics_Object(&(rects[i]),"../../resources/base.png", &colour);
-        rects[i]->Set_clip(clipBase);
-        //rects[i]->Create_texture_from_file("../../resources/base.png", &colour);
+    //Colour colour = {0,0xFF,0xFF,0xFF};
+    Load_from_file("../../resources/level1.txt");
 
+    //We know the base is the first block in the file, so set that first
+    Blocks[0]->sprite->Set_clip(clipBase);
+    for(unsigned int i=1;i<Blocks.size();i++) Blocks[i]->sprite->Set_clip(clipPlatform);
+
+}
+
+Level::~Level() {
+
+    //Clear all the objects from memory
+    for(unsigned int i; i<Blocks.size();i++) delete Blocks[i];
+    for(unsigned int i; i<Characters.size();i++) delete Characters[i];
+}
+
+game_errno_type Level::Load_from_file(std::string path) {
+
+    game_errno_type rv = GAME_ERRNO_SUCCESS;
+
+    //Create stream for level file data
+    std::ifstream level_file;
+    level_file.open(path, std::ifstream::in);
+
+    //If file is open / good, then start extracting data
+    if(level_file.is_open()) {
+        while (level_file.good()) {
+            //Get the next line in the file. Stop if encountering a comma
+            char str[256];
+            level_file.getline(str, 256, ',');
+
+            //Depending on the keyword (at start of line), do a different action?
+            if(!strncmp((const char *) str, "BLOCK", 5)) {
+            //Block
+            /*Extract texture path (relative), level coordinates, block type
+             *(decides clip?) */
+                //Texture path
+                char temp_path[256];
+                level_file.getline(temp_path, 256, ',');
+                std::string temp_string(temp_path);
+
+                //Level coordinates: x, y, w, h
+                SDL_Rect temp_rect;
+                level_file.getline(temp_path, 256, ',');
+                temp_rect.x = atoi(temp_path);
+                level_file.getline(temp_path, 256, ',');
+                temp_rect.y = atoi(temp_path);
+                level_file.getline(temp_path, 256, ',');
+                temp_rect.w = atoi(temp_path);
+                level_file.getline(temp_path, 256, ',');
+                temp_rect.h = atoi(temp_path);
+
+                //TODO: Add more, i.e. block type?
+                Blocks.push_back(new block_t(temp_string, temp_rect));
+            }
+            else if(!strncmp((const char *) str, "CHARACTER", 9)) {
+                //Character
+                /*Extract texture path (relative), level coordinates*/
+                //Texture path
+                char temp_path[256];
+                level_file.getline(temp_path, 256, ',');
+                std::string temp_string(temp_path);
+
+                //Level coordinates: x, y, w, h
+                SDL_Rect temp_rect;
+                level_file.getline(temp_path, 256, ',');
+                temp_rect.x = atoi(temp_path);
+                level_file.getline(temp_path, 256, ',');
+                temp_rect.y = atoi(temp_path);
+                level_file.getline(temp_path, 256, ',');
+                temp_rect.w = atoi(temp_path);
+                level_file.getline(temp_path, 256, ',');
+                temp_rect.h = atoi(temp_path);
+
+                //TODO: Add more?
+                Characters.push_back(new Character(temp_string,temp_rect));
+            }
+
+            //Clear whatever remains of this line
+            level_file.getline(str, 256, '\n');
+        }
+
+        level_file.close();
     }
+else {
+    #ifdef DEBUG
+        std::cout << "Error opening file";
+    #endif
+    rv = GAME_ERRNO_BAD_PATH;
+}
 
-    for(int i = 1; i<rectslength;i++) {
-        //rects[i] = new Graphics_Object(renderer);
-        GLOBAL_RENDERER->Create_Graphics_Object(&(rects[i]),"../../resources/platform.png", &colour);
-        rects[i]->Set_clip(clipPlatform);
-        //rects[i]->Create_texture_from_file("../../resources/platform.png", &colour);
-
-    }
-
-    SDL_Point   positionBase = {0,430};
-    SDL_Point   positionPlatform1 = {50,400};
-    SDL_Point   positionPlatform2 = {260,350};
-    SDL_Point   positionPlatform3 = {500,400};
-    SDL_Point   positionPlatform4 = {100,4};
-    SDL_Point   positionLeg1 = {80,420};
-    SDL_Point   positionLeg2 = {210,420};
-    SDL_Point   positionLeg3 = {290,370};
-    SDL_Point   positionLeg4 = {400,370};
-    SDL_Point   positionLeg5 = {510,420};
-    SDL_Point   positionLeg6 = {570,420};
-
-    SDL_Point   extentsBase = {600, 50};
-    SDL_Point   extentsPlatform1 = {200, 20};
-    SDL_Point   extentsPlatform2 = {180, 20};
-    SDL_Point   extentsPlatform3 = {80, 20};
-    SDL_Point   extentsPlatform4 = {80, 20};
-    SDL_Point   extentsLeg1 = {10, 10};
-    SDL_Point   extentsLeg2 = {10, 10};
-    SDL_Point   extentsLeg3 = {10, 60};
-    SDL_Point   extentsLeg4 = {10, 60};
-    SDL_Point   extentsLeg5 = {5, 10};
-    SDL_Point   extentsLeg6 = {5, 10};
-
-    rects[0]->Set_screen_location(positionBase);
-    rects[0]->Set_extents(extentsBase);
-
-    rects[1]->Set_screen_location(positionPlatform1);
-    rects[1]->Set_extents(extentsPlatform1);
-
-    rects[2]->Set_screen_location(positionPlatform2);
-    rects[2]->Set_extents(extentsPlatform2);
-
-    rects[3]->Set_screen_location(positionPlatform3);
-    rects[3]->Set_extents(extentsPlatform3);
-
-    rects[4]->Set_screen_location(positionPlatform4);
-    rects[4]->Set_extents(extentsPlatform4);
-
-    rects[5]->Set_screen_location(positionLeg1);
-    rects[5]->Set_extents(extentsLeg1);
-
-    rects[6]->Set_screen_location(positionLeg2);
-    rects[6]->Set_extents(extentsLeg2);
-
-    rects[7]->Set_screen_location(positionLeg3);
-    rects[7]->Set_extents(extentsLeg3);
-
-    rects[8]->Set_screen_location(positionLeg4);
-    rects[8]->Set_extents(extentsLeg4);
-
-    rects[9]->Set_screen_location(positionLeg5);
-    rects[9]->Set_extents(extentsLeg5);
-
-    rects[10]->Set_screen_location(positionLeg6);
-    rects[10]->Set_extents(extentsLeg6);
-
+return rv;
 
 }

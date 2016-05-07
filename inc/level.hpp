@@ -20,6 +20,11 @@ files.
 
 #include <SDL.h>
 #include <graphics.hpp>
+#include <vector>
+#include <string>
+#include "debug.hpp"
+#include "block.hpp"
+#include "character.hpp"
 
 #define rectslength     11
 
@@ -33,17 +38,18 @@ class Level {
 
 public:
 
-    // Create a rectangle
-    Graphics_Object* rects[rectslength];
+// Create a rectangle array: Blocks
+Graphics_Object* rects[rectslength];
+std::vector<block_t*>    Blocks;
+std::vector<Character*>  Characters;
+//std::vector<item_t>     Items;
+//std::vector<enemy_t>    Enemies;
 
+//Constructor and destructor
 Level();
-//void draw (SDL_Renderer* renderer);
-void draw();
-    //Renderer
- //  SDL_Renderer* renderer = SDL_CreateRenderer(MainWindow, -1, 0);
+~Level();
 
-
-   //SDL_RenderPresent(renderer); // copy to screen
+game_errno_type Load_from_file(std::string path);
 
 };
 

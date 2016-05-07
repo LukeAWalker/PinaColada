@@ -87,6 +87,9 @@ class Graphics_Object {
         //Measured in pixels of texture
         game_errno_type Set_extents(SDL_Point xy_size);
 
+        //Function for setting location and extents simultaneously
+        game_errno_type Set_position_size(SDL_Rect area);
+
         //Set clipping area for textures with multiple sprites on
         game_errno_type Set_clip(SDL_Rect clip_area_in);
     private:
