@@ -130,14 +130,17 @@ Character::handle_logic()
 
     if (position.x < 0) {
         position.x = 0;
+        speed.x = 0;
     }
 
     if (position.x > 600 - size.x) {
         position.x = 600 - size.x;
+        speed.x = 0;
     }
 
     if (position.y < 0) {
         position.y = 0;
+        speed.y = 0;
     }
 
     if (position.y > 480 - size.y) {

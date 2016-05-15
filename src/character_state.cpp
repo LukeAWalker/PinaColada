@@ -99,7 +99,7 @@ GroundedState::handle_input(Character              *character,
                 break;
 
             case SDLK_UP:
-                new_velocity.y = -30;
+                new_velocity.y = -25;
                 new_state = CHARACTER_STATE_AERIAL;
                 break;
 
