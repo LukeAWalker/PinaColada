@@ -132,7 +132,7 @@ Level::handle_collisions() {
         char_rect.x = character->position.x;
         char_rect.y = character->position.y;
         char_rect.w = character->size.x;
-        char_rect.y = character->size.y;
+        char_rect.h = character->size.y;
         for (block_index = 0; block_index < Blocks.size(); block_index++) {
             block = Blocks[block_index];
             is_collision = check_rectangle_overlap(&char_rect,

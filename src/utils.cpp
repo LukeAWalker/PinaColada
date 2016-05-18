@@ -10,6 +10,7 @@ Utility function definitions for use throughout the code.
 
 *******************************************************************************/
 #include <SDL.h>
+#include <iostream>
 #include "utils.hpp"
 
 
@@ -53,6 +54,11 @@ check_rectangle_overlap(SDL_Rect            *rect_a,
     bool                rects_intersect = false;
     SDL_Rect            intersection = {0, 0, 0, 0};
 
+    std::cerr << "RECT A: (" << rect_a->x << ", " << rect_a->y << ", " <<
+              rect_a->w << ", " << rect_a->h << ")\n";
+    std::cerr << "RECT B: (" << rect_b->x << ", " << rect_b->y << ", " <<
+              rect_b->w << ", " << rect_b->h << ")\n";
+
     if (a_overlap != NULL) {
         *a_overlap = RECTANGLE_OVERLAP_NONE;
     }
@@ -66,6 +72,7 @@ check_rectangle_overlap(SDL_Rect            *rect_a,
     if (rects_intersect) {
         if (a_overlap != NULL) {
             *a_overlap = get_overlap_edges(rect_a, &intersection);
+            std::cout << "Overlap of A: " << *a_overlap << "\n";
         }
 
         if (b_overlap != NULL) {

@@ -216,6 +216,9 @@ Character::handle_collisions(object_t             object,
     // For now we only handle level blocks.
     assert(object == OBJECT_LEVEL_BLOCK);
 
+    // TODO: There's a bug which manifests itself in this function. Essentially
+    // we try to move the character outside the colliding rectangle, but on all
+    // axes. This isn't quite right...
     if (EDGE_OVERLAPS(RECTANGLE_OVERLAP_LEFT, overlap)) {
         speed.x = 0;
         position.x = (colliding_rect->x - size.x);
