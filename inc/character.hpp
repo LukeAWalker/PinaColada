@@ -106,7 +106,7 @@ class Character {
          *   IN - The type of object
          *
          * Argument: colliding_rect
-         *   IN - The rectangle with which the character is colliding
+         *   IN 
          *
          * Argument: overlap
          *   IN - The edges of the character which overlap the colliding object.

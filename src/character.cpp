@@ -220,23 +220,23 @@ Character::handle_collisions(object_t             object,
     // we try to move the character outside the colliding rectangle, but on all
     // axes. This isn't quite right...
     if (EDGE_OVERLAPS(RECTANGLE_OVERLAP_LEFT, overlap)) {
+        position.x -= speed.x;
         speed.x = 0;
-        position.x = (colliding_rect->x - size.x);
     }
 
     if (EDGE_OVERLAPS(RECTANGLE_OVERLAP_RIGHT, overlap)) {
+        position.x -= speed.x;
         speed.x = 0;
-        position.x = (colliding_rect->x + colliding_rect->w);
     }
 
     if (EDGE_OVERLAPS(RECTANGLE_OVERLAP_TOP, overlap)) {
+        position.y -= speed.y;
         speed.y = 0;
-        position.y = (colliding_rect->y + colliding_rect->h);
     }
 
     if (EDGE_OVERLAPS(RECTANGLE_OVERLAP_BOTTOM, overlap)) {
+        position.y -= speed.y;
         speed.y = 0;
-        position.y = (colliding_rect->y - size.y);
         change_state(CHARACTER_STATE_GROUNDED);
     }
 }
