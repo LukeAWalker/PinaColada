@@ -146,10 +146,6 @@ Character::handle_logic()
     if (position.y > 480 - size.y) {
         position.y = 480 - size.y;
         speed.y = 0;
-        /**
-         * TODO: We change state on every loop - need to fix this. There's also
-         * a bug here where we don't reset the horizontal speed on landing.
-         */
         this->change_state(CHARACTER_STATE_GROUNDED);
     }
 

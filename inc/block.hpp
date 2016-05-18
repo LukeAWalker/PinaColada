@@ -39,6 +39,8 @@ public:
     //sprite
     Graphics_Object* sprite;
 
+    SDL_Rect location;
+
 };
 
 #endif //BLOCK_H_

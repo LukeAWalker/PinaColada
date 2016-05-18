@@ -51,6 +51,15 @@ Level();
 
 game_errno_type Load_from_file(std::string path);
 
+/**
+ * handle_collisions
+ *
+ * Handle any collisions between the objects that are a part of this level.
+ *
+ * This should be called once per game loop as part of the logic handling case.
+ */
+void handle_collisions();
+
 };
 
 #endif //_LEVEL_H_

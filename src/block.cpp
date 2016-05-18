@@ -34,6 +34,7 @@ block_t::block_t(std::string texture_path, SDL_Rect level_coords) {
     //Set clip area: TODO: make this user changeable
     SDL_Rect clip_temp = {0,0,100,100};
     sprite->Set_clip(clip_temp);
+    location = level_coords;
 }
 
 //Destructor

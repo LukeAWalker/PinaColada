@@ -106,3 +106,25 @@ else {
 return rv;
 
 }
+
+
+/**
+ * handle_collisions
+ *
+ * See level.hpp
+ */
+void
+Level::handle_collisions() {
+    int        char_index;
+    Character *character;
+
+    /**
+     * First deal with any collisions between characters and the elements of
+     * the level.
+     */
+    for (char_index = 0; char_index < Characters.size(); char_index++) {
+        character = Characters[char_index];
+
+
+    }
+}
