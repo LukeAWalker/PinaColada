@@ -115,8 +115,13 @@ return rv;
  */
 void
 Level::handle_collisions() {
-    int        char_index;
-    Character *character;
+    bool                 is_collision = false;
+    uint16_t             char_index;
+    Character           *character;
+    uint16_t             block_index;
+    block_t             *block;
+    SDL_Rect             char_rect;
+    rectangle_overlap_t  char_overlap;
 
     /**
      * First deal with any collisions between characters and the elements of
@@ -124,7 +129,21 @@ Level::handle_collisions() {
      */
     for (char_index = 0; char_index < Characters.size(); char_index++) {
         character = Characters[char_index];
-
-
+        char_rect.x = character->position.x;
+        char_rect.y = character->position.y;
+        char_rect.w = character->size.x;
+        char_rect.y = character->size.y;
+        for (block_index = 0; block_index < Blocks.size(); block_index++) {
+            block = Blocks[block_index];
+            is_collision = check_rectangle_overlap(&char_rect,
+                                                   &block->location,
+                                                   &char_overlap,
+                                                   NULL);
+            if (is_collision) {
+                character->handle_collisions(OBJECT_LEVEL_BLOCK,
+                                            &block->location,
+                                            char_overlap);
+            }
+        }
     }
 }

@@ -54,7 +54,7 @@ struct Colour {
  * Type defining the type of overlap between two rectangles. Note this can be
  * any combination of the above flags.
  */
-typedef rectangle_overlap_t uint8_t;
+typedef uint8_t rectangle_overlap_t;
 
 
 /**
@@ -84,5 +84,16 @@ check_rectangle_overlap(SDL_Rect            *rect_a,
                         SDL_Rect            *rect_b,
                         rectangle_overlap_t *a_overlap,
                         rectangle_overlap_t *b_overlap);
+
+
+/**
+ * object_t
+ *
+ * Enumeration of possible object types
+ */
+enum object_t {
+    OBJECT_LEVEL_BLOCK,
+    OBJECT_CHARACTER,
+};
 
 #endif //UTILS_H_

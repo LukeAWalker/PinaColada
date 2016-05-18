@@ -13,6 +13,32 @@ Utility function definitions for use throughout the code.
 #include "utils.hpp"
 
 
+static rectangle_overlap_t
+get_overlap_edges(SDL_Rect *rect,
+                  SDL_Rect *overlap_rect)
+{
+    rectangle_overlap_t overlap = RECTANGLE_OVERLAP_NONE;
+
+    if (rect->y == overlap_rect->y) {
+        overlap |= RECTANGLE_OVERLAP_TOP;
+    }
+
+    if (rect->x == overlap_rect->x) {
+        overlap |= RECTANGLE_OVERLAP_LEFT;
+    }
+
+    if ((rect->x + rect->w) == (overlap_rect->x + overlap_rect->w)) {
+        overlap |= RECTANGLE_OVERLAP_RIGHT;
+    }
+
+    if ((rect->y + rect->h) == (overlap_rect->y + overlap_rect->h)) {
+        overlap |= RECTANGLE_OVERLAP_BOTTOM;
+    }
+
+    return (overlap);
+}
+
+
 /**
  * check_rectangle_overlap
  *
@@ -35,9 +61,17 @@ check_rectangle_overlap(SDL_Rect            *rect_a,
         *b_overlap = RECTANGLE_OVERLAP_NONE;
     }
 
-    rects_intersect = SDL_IntersectRect(rect_a, rect_b, &result);
+    rects_intersect = SDL_IntersectRect(rect_a, rect_b, &intersection);
 
     if (rects_intersect) {
+        if (a_overlap != NULL) {
+            *a_overlap = get_overlap_edges(rect_a, &intersection);
+        }
 
+        if (b_overlap != NULL) {
+            *b_overlap = get_overlap_edges(rect_b, &intersection);
+        }
     }
+
+    return (rects_intersect);
 }

@@ -199,3 +199,41 @@ Character::change_state(character_state_type new_state)
         state->enter(this);
     }
 }
+
+
+#define EDGE_OVERLAPS(edge, overlap) (((overlap) & (edge)) == (edge))
+
+/**
+ * Character::handle_collisions
+ *
+ * See character.hpp
+ */
+void
+Character::handle_collisions(object_t             object,
+                             SDL_Rect            *colliding_rect,
+                             rectangle_overlap_t  overlap)
+{
+    // For now we only handle level blocks.
+    assert(object == OBJECT_LEVEL_BLOCK);
+
+    if (EDGE_OVERLAPS(RECTANGLE_OVERLAP_LEFT, overlap)) {
+        speed.x = 0;
+        position.x = (colliding_rect->x - size.x);
+    }
+
+    if (EDGE_OVERLAPS(RECTANGLE_OVERLAP_RIGHT, overlap)) {
+        speed.x = 0;
+        position.x = (colliding_rect->x + colliding_rect->w);
+    }
+
+    if (EDGE_OVERLAPS(RECTANGLE_OVERLAP_TOP, overlap)) {
+        speed.y = 0;
+        position.y = (colliding_rect->y + colliding_rect->h);
+    }
+
+    if (EDGE_OVERLAPS(RECTANGLE_OVERLAP_BOTTOM, overlap)) {
+        speed.y = 0;
+        position.y = (colliding_rect->y - size.y);
+        change_state(CHARACTER_STATE_GROUNDED);
+    }
+}

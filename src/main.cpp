@@ -127,6 +127,7 @@ main (int   argc,
             }
             level->Characters[0]->handle_event(events);
             level->Characters[0]->handle_logic();
+            level->handle_collisions();
             GLOBAL_RENDERER->Draw();
             events.clear();
         }

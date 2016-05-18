@@ -25,6 +25,7 @@ relevant to the central character, currently:
 #include <graphics.hpp>
 #include <vector>
 #include <string>
+#include "utils.hpp"
 
 /*DEFINES**********************************************************************/
 
@@ -89,10 +90,32 @@ class Character {
 
         //Graphics object
         Graphics_Object* sprite;
-    private:
+
         //Level position, size
+        // TODO: move back to private and put some methods on to get these.
+        // Also maybe put into a single rect?
         SDL_Point   position;
         SDL_Point   size;
+
+        /**
+         * handle_collisions
+         *
+         * Deal with any collisions between the character and other objects.
+         *
+         * Argument: object
+         *   IN - The type of object
+         *
+         * Argument: colliding_rect
+         *   IN - The rectangle with which the character is colliding
+         *
+         * Argument: overlap
+         *   IN - The edges of the character which overlap the colliding object.
+         */
+        void handle_collisions(object_t             object,
+                               SDL_Rect            *colliding_rect,
+                               rectangle_overlap_t  overlap);
+
+    private:
 
         //Character current speed (2D)
         SDL_Point       speed;

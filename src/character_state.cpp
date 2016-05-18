@@ -142,6 +142,7 @@ GroundedState::enter(Character *character)
 
     velocity = character->get_velocity();
     velocity.x = 0;
+    velocity.y = 0;
 
     //Get the current key states, and set the horizontal velocity accordingly.
     keyboard_states = SDL_GetKeyboardState(NULL);
